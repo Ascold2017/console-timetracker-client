@@ -3,9 +3,10 @@ const storage = require('./storage')
 
 EVENTS.on('showTaskList', () => {
 
-    EVENTS.emit('setPage', 1)
-
     console.clear()
+
+    EVENTS.emit('setPage', 'taskList', 'showTaskList')
+
 
     let activeId = storage.activeShowTask
 

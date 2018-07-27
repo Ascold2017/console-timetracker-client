@@ -9,7 +9,6 @@ EVENTS.on('login', (data) => {
         console.log('Вы вошли как ' + result.profile.username + '. Добро пожаловать в ' + result.profile.companyName)
         // save auth data in storage
         EVENTS.emit('setAuth', { token: result.token, profile: result.profile })
-
         setTimeout(() => {
             EVENTS.emit('getTasks')
         }, 3000)

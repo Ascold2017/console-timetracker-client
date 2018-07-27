@@ -8,7 +8,7 @@ let storage = {
     },
     tasks: [],
     selectedTask: {},
-    page: 0,
+    page: -1,
     activeShowTask: 0,
     activeAction: 0
 }
@@ -26,7 +26,8 @@ EVENTS.on('setActiveTask', task => {
     storage.selectedTask = task
 })
 
-EVENTS.on('setPage', page => {
+EVENTS.on('setPage', (page, owner) => {
+    console.log('set page', page, owner)
     storage.page = page
 })
 
