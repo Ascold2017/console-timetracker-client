@@ -36,8 +36,8 @@ require('./controllers/startTask')
 
 process.stdin.on('keypress', (ch, key) => {
 
-        if (key.name === 'up') {
-
+    switch (key.name) {
+        case 'up': {
             if (storage.page === 'taskList') {
                 storage.activeShowTask > 0 ? storage.activeShowTask-- : null
                 global.EVENTS.emit('showTaskList')
@@ -47,11 +47,9 @@ process.stdin.on('keypress', (ch, key) => {
                 storage.activeAction > 0 ? storage.activeAction-- : null
                 global.EVENTS.emit('selectTaskAction')
             }
-            
+            break;
         }
-    
-        if (key.name === 'down') {
-
+        case 'down': {
             if (storage.page === 'taskList') {
                 storage.activeShowTask < storage.tasks.length - 1 ? storage.activeShowTask++ : null
            
@@ -62,10 +60,10 @@ process.stdin.on('keypress', (ch, key) => {
                 storage.activeAction < 1? storage.activeAction++ : null
                 global.EVENTS.emit('selectTaskAction')
             }
+            break;
         }
-    
-        if (key.name === 'return') {
-            
+
+        case 'return': {
             if (storage.page === 'taskList') {
                 console.clear()
                 global.EVENTS.emit('setActiveTask', storage.tasks[storage.activeShowTask])
@@ -86,8 +84,9 @@ process.stdin.on('keypress', (ch, key) => {
                 
                 }
             }
-            
         }
+
+    }
     
 })
 
