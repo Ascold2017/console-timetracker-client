@@ -1,5 +1,4 @@
 
-const io = require('socket.io-client')
 const readline = require('readline')
 const EventEmitter = require('events').EventEmitter
 global.EVENTS = new EventEmitter()
@@ -32,7 +31,9 @@ require('./controllers/login')
 require('./controllers/getTasks')
 require('./controllers/showTaskList')
 require('./controllers/chooseTaskAction')
+require('./controllers/socket')
 require('./controllers/startTask')
+require('./controllers/stopTask')
 
 process.stdin.on('keypress', (ch, key) => {
 
@@ -41,26 +42,30 @@ process.stdin.on('keypress', (ch, key) => {
             if (storage.page === 'taskList') {
                 storage.activeShowTask > 0 ? storage.activeShowTask-- : null
                 global.EVENTS.emit('showTaskList')
+                return
             }
 
             else if (storage.page === 'actionList') {
                 storage.activeAction > 0 ? storage.activeAction-- : null
                 global.EVENTS.emit('selectTaskAction')
+                return
             }
-            break;
+            return
         }
         case 'down': {
             if (storage.page === 'taskList') {
                 storage.activeShowTask < storage.tasks.length - 1 ? storage.activeShowTask++ : null
            
                 global.EVENTS.emit('showTaskList')
+                return
             }
 
             else if (storage.page === 'actionList') {
                 storage.activeAction < 1? storage.activeAction++ : null
                 global.EVENTS.emit('selectTaskAction')
+                return
             }
-            break;
+            return
         }
 
         case 'return': {
@@ -68,21 +73,37 @@ process.stdin.on('keypress', (ch, key) => {
                 console.clear()
                 global.EVENTS.emit('setActiveTask', storage.tasks[storage.activeShowTask])
                 global.EVENTS.emit('selectTaskAction')
+                global.EVENTS.emit('setPage', 'actionList')
+                return
             } 
 
             else if (storage.page === 'actionList') {
                 console.clear()
 
                 if (storage.activeAction === 0) {
+                    global.EVENTS.emit('setPage', 'timetrackerPage')
                     global.EVENTS.emit('startTask')
+                    return
                 }
 
                 if (storage.activeAction === 1) {
                     
                     global.EVENTS.emit('getTasks')
-                    console.log('getTasks')
+                    global.EVENTS.emit('setPage', 'taskList')
+                    return
                 }
+                return
             }
+
+            else if (storage.page === 'timetrackerPage') {
+                console.clear()
+                console.log('stop')
+
+                global.EVENTS.emit('stopTask')
+                global.EVENTS.emit('setPage', 'taskList')
+                return
+            }
+            return
         }
 
     }

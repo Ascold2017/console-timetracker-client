@@ -3,7 +3,7 @@ const EVENTS = global.EVENTS
 const storage = require('./storage')
 
 EVENTS.on('getTasks', () => {
-    
+
     axios.get('http://localhost:3000/api/findTasksByCompany', { headers: { token: storage.token }})
     .then(response => {
         

@@ -10,7 +10,7 @@ let storage = {
     selectedTask: {},
     page: -1,
     activeShowTask: 0,
-    activeAction: 0
+    activeAction: 0,
 }
 
 EVENTS.on('setAuth', authData => {
@@ -26,9 +26,9 @@ EVENTS.on('setActiveTask', task => {
     storage.selectedTask = task
 })
 
-EVENTS.on('setPage', (page, owner) => {
-    console.log('set page', page, owner)
+EVENTS.on('setPage', (page) => {
     storage.page = page
 })
+
 
 module.exports = storage

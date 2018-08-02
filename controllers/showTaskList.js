@@ -2,11 +2,9 @@ const EVENTS = global.EVENTS
 const storage = require('./storage')
 
 EVENTS.on('showTaskList', () => {
+    global.EVENTS.emit('setPage', 'taskList')
 
     console.clear()
-
-    EVENTS.emit('setPage', 'taskList', 'showTaskList')
-
 
     let activeId = storage.activeShowTask
 
@@ -16,7 +14,7 @@ EVENTS.on('showTaskList', () => {
     } else {
 
         tasks.map((task, i) => {
-            i === activeId ? console.log(task.name + ' <') : console.log(task.name)
+            i === activeId ? console.log(task.name + ' <', storage.page) : console.log(task.name)
         })
     }
 })
