@@ -43,7 +43,7 @@ process.stdin.on('keypress', (ch, key) => {
                 global.EVENTS.emit('showTaskList')
             }
 
-            if (storage.page === 'actionList') {
+            else if (storage.page === 'actionList') {
                 storage.activeAction > 0 ? storage.activeAction-- : null
                 global.EVENTS.emit('selectTaskAction')
             }
@@ -56,7 +56,7 @@ process.stdin.on('keypress', (ch, key) => {
                 global.EVENTS.emit('showTaskList')
             }
 
-            if (storage.page === 'actionList') {
+            else if (storage.page === 'actionList') {
                 storage.activeAction < 1? storage.activeAction++ : null
                 global.EVENTS.emit('selectTaskAction')
             }
@@ -70,7 +70,7 @@ process.stdin.on('keypress', (ch, key) => {
                 global.EVENTS.emit('selectTaskAction')
             } 
 
-            if (storage.page === 'actionList') {
+            else if (storage.page === 'actionList') {
                 console.clear()
 
                 if (storage.activeAction === 0) {
@@ -81,7 +81,6 @@ process.stdin.on('keypress', (ch, key) => {
                     
                     global.EVENTS.emit('getTasks')
                     console.log('getTasks')
-                
                 }
             }
         }
