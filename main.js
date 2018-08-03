@@ -1,110 +1,63 @@
-
-const readline = require('readline')
 const EventEmitter = require('events').EventEmitter
 global.EVENTS = new EventEmitter()
-const keypress = require('keypress');
+const keypress = require('keypress')
+const storage = require('./storage')
+require('./api')
+require('./socket')
+require('./controllers')
+require('./views/login')
+require('./views/tasks')
+require('./views/actions')
+require('./views/task')
 
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
-
-let email
-let password
-
-console.log('Здравствуйте! Авторизуйтесь, пожалуйста!')
-
-rl.question('Email: ', answer => {
-    email = answer
-    rl.question('Password: ', answer => {
-        password = answer
-        global.EVENTS.emit('login', { email, password })
-        // rl.close()
-    })
-})
-
-
-
-const storage = require('./controllers/storage')
-require('./controllers/login')
-require('./controllers/getTasks')
-require('./controllers/showTaskList')
-require('./controllers/chooseTaskAction')
-require('./controllers/socket')
-require('./controllers/startTask')
-require('./controllers/stopTask')
-
+global.EVENTS.emit('controllers/showLogin')
 process.stdin.on('keypress', (ch, key) => {
 
     switch (key.name) {
         case 'up': {
-            if (storage.page === 'taskList') {
-                storage.activeShowTask > 0 ? storage.activeShowTask-- : null
-                global.EVENTS.emit('showTaskList')
-                return
+            if (storage.page === 'tasks') {
+                global.EVENTS.emit('controllers/taskUp')
             }
-
-            else if (storage.page === 'actionList') {
-                storage.activeAction > 0 ? storage.activeAction-- : null
-                global.EVENTS.emit('selectTaskAction')
-                return
+            
+            else if (storage.page === 'actions') {
+                global.EVENTS.emit('controllers/actionUp')
             }
-            return
+            break
         }
         case 'down': {
-            if (storage.page === 'taskList') {
-                storage.activeShowTask < storage.tasks.length - 1 ? storage.activeShowTask++ : null
-           
-                global.EVENTS.emit('showTaskList')
-                return
+            if (storage.page === 'tasks') {
+                global.EVENTS.emit('controllers/taskDown')
             }
 
-            else if (storage.page === 'actionList') {
-                storage.activeAction < 1? storage.activeAction++ : null
-                global.EVENTS.emit('selectTaskAction')
-                return
+            else if (storage.page === 'actions') {
+                global.EVENTS.emit('controllers/actionDown')
             }
-            return
+            break
         }
 
         case 'return': {
-            if (storage.page === 'taskList') {
-                console.clear()
-                global.EVENTS.emit('setActiveTask', storage.tasks[storage.activeShowTask])
-                global.EVENTS.emit('selectTaskAction')
-                global.EVENTS.emit('setPage', 'actionList')
-                return
-            } 
-
-            else if (storage.page === 'actionList') {
-                console.clear()
-
-                if (storage.activeAction === 0) {
-                    global.EVENTS.emit('setPage', 'timetrackerPage')
-                    global.EVENTS.emit('startTask')
-                    return
-                }
-
-                if (storage.activeAction === 1) {
-                    
-                    global.EVENTS.emit('getTasks')
-                    global.EVENTS.emit('setPage', 'taskList')
-                    return
-                }
-                return
+            if (storage.page === 'tasks') {
+                global.EVENTS.emit('controllers/tasksEnter')
             }
 
-            else if (storage.page === 'timetrackerPage') {
-                console.clear()
-                console.log('stop')
-
-                global.EVENTS.emit('stopTask')
-                global.EVENTS.emit('setPage', 'taskList')
-                return
+            else if (storage.page === 'actions') {
+                global.EVENTS.emit('controllers/actionEnter')
             }
-            return
+
+            else if (storage.page === 'task') {
+                global.EVENTS.emit('controllers/taskEnter')
+            }
+            break
         }
+
+        case 'escape': {
+            if (storage.page === 'task') {
+                global.EVENTS.emit('controllers/showTasks')
+            }
+            break
+        }
+
+        default: return
 
     }
     

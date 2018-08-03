@@ -13,20 +13,29 @@ let storage = {
     activeAction: 0,
 }
 
-EVENTS.on('setAuth', authData => {
+EVENTS.on('store/setAuth', authData => {
     storage.token = authData.token
     storage.profile = authData.profile
 })
 
-EVENTS.on('setTasks', tasks => {
+EVENTS.on('store/setTasks', tasks => {
     storage.tasks = tasks
 })
 
-EVENTS.on('setActiveTask', task => {
+EVENTS.on('store/activeShowTask', activeId => {
+    storage.activeShowTask = activeId
+})
+
+EVENTS.on('store/setActiveTask', task => {
     storage.selectedTask = task
 })
 
-EVENTS.on('setPage', (page) => {
+
+EVENTS.on('store/setActiveAction', action => {
+    storage.activeAction = action
+})
+
+EVENTS.on('store/setPage', (page) => {
     storage.page = page
 })
 
