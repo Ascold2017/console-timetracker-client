@@ -25,3 +25,12 @@ EVENTS.on('api/getTasks', () => {
     })
     .catch(e => console.log(e.response.data))
 })
+
+EVENTS.on('/api/getStat', () => {
+    axios.get('http://localhost:3000/api/getTimetrackerStat', { headers: { token: storage.token }})
+    .then(response => {
+        EVENTS.emit('controllers/showUserStat', response.data.result)
+    })
+    .catch(e => console.log(e.response.data))
+    
+})

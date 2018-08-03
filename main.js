@@ -9,6 +9,8 @@ require('./views/login')
 require('./views/tasks')
 require('./views/actions')
 require('./views/task')
+require('./views/start')
+require('./views/userStat')
 
 global.EVENTS.emit('controllers/showLogin')
 process.stdin.on('keypress', (ch, key) => {
@@ -22,6 +24,9 @@ process.stdin.on('keypress', (ch, key) => {
             else if (storage.page === 'actions') {
                 global.EVENTS.emit('controllers/actionUp')
             }
+            else if (storage.page === 'start') {
+                global.EVENTS.emit('controllers/startUp')
+            }
             break
         }
         case 'down': {
@@ -31,6 +36,10 @@ process.stdin.on('keypress', (ch, key) => {
 
             else if (storage.page === 'actions') {
                 global.EVENTS.emit('controllers/actionDown')
+            }
+
+            else if (storage.page === 'start') {
+                global.EVENTS.emit('controllers/startDown')
             }
             break
         }
@@ -47,12 +56,19 @@ process.stdin.on('keypress', (ch, key) => {
             else if (storage.page === 'task') {
                 global.EVENTS.emit('controllers/taskEnter')
             }
+
+            else if (storage.page === 'start') {
+                global.EVENTS.emit('controllers/startEnter')
+            }
             break
         }
 
         case 'escape': {
             if (storage.page === 'task') {
                 global.EVENTS.emit('controllers/showTasks')
+            }
+            else if (storage.page === 'stat') {
+                global.EVENTS.emit('controllers/showStart')
             }
             break
         }

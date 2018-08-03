@@ -28,7 +28,7 @@ EVENTS.on('login/render', () => {
 EVENTS.on('login_success', response => {
     console.log(response.message)
     console.log('Вы вошли как ' + response.profile.username + '. Добро пожаловать в ' + response.profile.companyName)
-    EVENTS.emit('controllers/showTasks')
+    EVENTS.emit('controllers/showStart')
 })
 
 EVENTS.on('login_fail', response => {

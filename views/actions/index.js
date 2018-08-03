@@ -9,5 +9,5 @@ EVENTS.on('actions/render', () => {
     console.log('Выбран таск: ', task.name)
     console.log('Выберите действие:')
     selected === 0 ? console.log('Запустить <') : console.log('Запустить')
-    selected === 1 ? console.log('К списку тасков <') : console.log('К списку тасков')
+    selected === 1 ? console.log('На главную <') : console.log('На главную')
 })
